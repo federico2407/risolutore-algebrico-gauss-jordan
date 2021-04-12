@@ -9,9 +9,9 @@
         <div  id="controls" style="visibility: hidden">
             <button onclick="addVector()">Aggiungi vettore</button>
             <input type="radio" id="generic" name="result" onclick="resultType('generic')">
-            <label for="generic">Generic</label>
+            <label for="generic">Generico</label>
             <input type="radio" id="specific" name="result" onclick="resultType('specific')">
-            <label for="specific">Specific</label>
+            <label for="specific">Specifico</label>
             <button onclick="startCalc()">Calcola</button>
         </div>
         <div>
@@ -146,6 +146,7 @@
             gauss(){
                 let i, pivot;
                 let pivotlst = [];
+                let solvable = true;
                 console.log(this.print());
                 gaussPrint(this.print());
                 for(i = 0, this.pivHeight = 0; i<this.length; i++, this.pivHeight++){ //per ogni colonna della matrice
@@ -184,10 +185,17 @@
                 }
                 if(pivotlst.some(e=>!e))
                     gaussPrint("\\(\\text{Variabili libere = " + pivotlst.map((e, i)=>!e?(i+1)+"°":"").filter(e=>e!="").join(' ')+"}\\)");
-                for(let j = this.pivHeight; j<this.m.length; j++)
-                    gaussPrint(`\\(\\text{Appartiene al sistema lineare solo se } ${this.m[j].printP2()} \\text{ = 0}\\)`);
+                if(this.pivHeight < this.m.length) gaussPrint(`\\(\\text{Appartiene al sistema lineare solo se:}\\)`);
+                for(let j = this.pivHeight; j<this.m.length; j++){
+                    gaussPrint(`\\(${this.m[j].printP2()} \\text{ = 0}\\)`);
+                    if(this.m[j].p2 instanceof Rational && this.m[j].p2.val()){
+                        gaussPrint(`\\(\\text{che è falso, quindi non ha soluzioni}\\)`);
+                        solvable = false;
+                        break;
+                    }
+                }
                 this.pivHeight--;
-                if(pivotlst.every(e => e)) this.jordan();
+                if(pivotlst.every(e => e) && solvable) this.jordan();
                 MathJax.typeset();
             }
             jordan(){
