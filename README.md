@@ -1,2 +1,2 @@
 # Risolutore algebrico Gauss-Jordan
-Risolutore di sistemi algebrici con il metodo Gauss-Jordan e spiegazione passo passo in js
+Risolutore di sistemi lineari in js con il metodo Gauss-Jordan e spiegazione passo passo
