@@ -157,8 +157,8 @@
                         let j = this.pivHeight+1;
                         while(j<this.m.length&&this.m[j].val(i).val() == 0) j++;
                         if(j!=this.m.length){
-                            gaussPrint(`\\(\\text{Scambio le righe ${i+1} e ${j+1}:}\\)`);
-                            this.exchangeLines(i, j);
+                            gaussPrint(`\\(\\text{Scambio le righe ${this.pivHeight+1} e ${j+1}:}\\)`);
+                            this.exchangeLines(this.pivHeight, j);
                             gaussPrint(this.print());
                             i--;
                         }
